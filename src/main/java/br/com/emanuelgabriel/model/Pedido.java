@@ -35,6 +35,7 @@ public class Pedido implements Serializable {
 
 	private Double longitude;
 
+	@Column(name = "data_pedido")
 	private LocalDate dataPedido;
 
 	@Column(name = "status_pedido", length = 20)
