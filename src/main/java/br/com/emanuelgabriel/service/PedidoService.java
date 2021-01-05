@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.emanuelgabriel.dto.PedidoDTO;
 import br.com.emanuelgabriel.dto.ProdutoDTO;
+import br.com.emanuelgabriel.exceptions.ObjetoNaoEncontradoException;
 import br.com.emanuelgabriel.model.Pedido;
 import br.com.emanuelgabriel.model.Produto;
 import br.com.emanuelgabriel.model.enums.StatusPedido;
@@ -43,6 +44,18 @@ public class PedidoService {
 
 		pedido = this.pedidoRepository.save(pedido);
 
+		return new PedidoDTO(pedido);
+	}
+
+	@Transactional
+	public PedidoDTO pedidoEntregue(Long id) {
+		Pedido pedido = this.pedidoRepository.getOne(id);
+		if (pedido == null) {
+			throw new ObjetoNaoEncontradoException("Pedido de código não encontrado");
+		}
+
+		pedido.setStatusPedido(StatusPedido.ENTREGUE);
+		pedido = this.pedidoRepository.save(pedido);
 		return new PedidoDTO(pedido);
 	}
 
