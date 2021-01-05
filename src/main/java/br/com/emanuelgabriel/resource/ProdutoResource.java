@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +33,12 @@ public class ProdutoResource {
 	public ResponseEntity<List<ProdutoDTO>> buscarTodos() {
 		List<ProdutoDTO> lista = this.produtoService.buscarTodos();
 		return ResponseEntity.ok().body(lista);
+	}
+
+	@GetMapping("/{idProduto}")
+	public ResponseEntity<ProdutoDTO> buscarPorId(@PathVariable Long idProduto) {
+		ProdutoDTO produto = this.produtoService.buscarPorId(idProduto);
+		return produto != null ? ResponseEntity.ok().body(produto) : ResponseEntity.notFound().build();
 	}
 
 	@PostMapping

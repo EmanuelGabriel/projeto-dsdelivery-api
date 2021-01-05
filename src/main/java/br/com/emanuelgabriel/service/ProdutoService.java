@@ -36,4 +36,9 @@ public class ProdutoService {
 		return listaProdutos.stream().map(p -> new ProdutoDTO(p)).collect(Collectors.toList());
 	}
 
+	public ProdutoDTO buscarPorId(Long id) {
+		Produto produto = this.produtoRepository.findById(id).get();
+		return new ProdutoDTO(produto);
+	}
+
 }

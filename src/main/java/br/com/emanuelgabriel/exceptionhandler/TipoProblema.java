@@ -19,7 +19,7 @@ public enum TipoProblema {
 	private String uri;
 
 	private TipoProblema(String path, String titulo) {
-		this.uri = "https://ordemservico.com.br" + path;
+		this.uri = "https://dsdelivery.com.br" + path;
 		this.titulo = titulo;
 	}
 	
@@ -38,7 +38,5 @@ public enum TipoProblema {
 	public void setUri(String uri) {
 		this.uri = uri;
 	}
-	
-	
 
 }
