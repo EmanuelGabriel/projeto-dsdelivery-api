@@ -1,11 +1,12 @@
 package br.com.emanuelgabriel.dto;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import br.com.emanuelgabriel.dto.response.ProdutoModelResponse;
 import br.com.emanuelgabriel.model.Pedido;
 import br.com.emanuelgabriel.model.enums.StatusPedido;
 
@@ -17,14 +18,14 @@ public class PedidoDTO implements Serializable {
 	private String endereco;
 	private Double latitude;
 	private Double longitude;
-	private LocalDate dataPedido;
+	private LocalDateTime dataPedido;
 	private StatusPedido statusPedido;
-	private List<ProdutoDTO> produtos = new ArrayList<>();
+	private List<ProdutoModelResponse> produtos = new ArrayList<>();
 
 	public PedidoDTO() {
 	}
 
-	public PedidoDTO(Long id, String endereco, Double latitude, Double longitude, LocalDate dataPedido,
+	public PedidoDTO(Long id, String endereco, Double latitude, Double longitude, LocalDateTime dataPedido,
 			StatusPedido statusPedido) {
 		this.id = id;
 		this.endereco = endereco;
@@ -41,7 +42,7 @@ public class PedidoDTO implements Serializable {
 		longitude = pedido.getLongitude();
 		dataPedido = pedido.getDataPedido();
 		statusPedido = pedido.getStatusPedido();
-		produtos = pedido.getProdutos().stream().map(p -> new ProdutoDTO(p)).collect(Collectors.toList());
+		produtos = pedido.getProdutos().stream().map(p -> new ProdutoModelResponse(p)).collect(Collectors.toList());
 	}
 
 	public Long getId() {
@@ -76,11 +77,11 @@ public class PedidoDTO implements Serializable {
 		this.longitude = longitude;
 	}
 
-	public LocalDate getDataPedido() {
+	public LocalDateTime getDataPedido() {
 		return dataPedido;
 	}
 
-	public void setDataPedido(LocalDate dataPedido) {
+	public void setDataPedido(LocalDateTime dataPedido) {
 		this.dataPedido = dataPedido;
 	}
 
@@ -92,11 +93,11 @@ public class PedidoDTO implements Serializable {
 		this.statusPedido = statusPedido;
 	}
 
-	public List<ProdutoDTO> getProdutos() {
+	public List<ProdutoModelResponse> getProdutos() {
 		return produtos;
 	}
 
-	public void setProdutos(List<ProdutoDTO> produtos) {
+	public void setProdutos(List<ProdutoModelResponse> produtos) {
 		this.produtos = produtos;
 	}
 

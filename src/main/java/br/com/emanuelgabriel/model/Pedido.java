@@ -1,7 +1,7 @@
 package br.com.emanuelgabriel.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,7 +36,7 @@ public class Pedido implements Serializable {
 	private Double longitude;
 
 	@Column(name = "data_pedido")
-	private LocalDate dataPedido;
+	private LocalDateTime dataPedido;
 
 	@Column(name = "status_pedido", length = 20)
 	private StatusPedido statusPedido;
@@ -50,7 +50,7 @@ public class Pedido implements Serializable {
 	public Pedido() {
 	}
 
-	public Pedido(Long id, String endereco, Double latitude, Double longitude, LocalDate dataPedido,
+	public Pedido(Long id, String endereco, Double latitude, Double longitude, LocalDateTime dataPedido,
 			StatusPedido statusPedido) {
 		this.id = id;
 		this.endereco = endereco;
@@ -92,11 +92,11 @@ public class Pedido implements Serializable {
 		this.longitude = longitude;
 	}
 
-	public LocalDate getDataPedido() {
+	public LocalDateTime getDataPedido() {
 		return dataPedido;
 	}
 
-	public void setDataPedido(LocalDate dataPedido) {
+	public void setDataPedido(LocalDateTime dataPedido) {
 		this.dataPedido = dataPedido;
 	}
 
@@ -110,10 +110,6 @@ public class Pedido implements Serializable {
 
 	public Set<Produto> getProdutos() {
 		return produtos;
-	}
-
-	public void setProdutos(Set<Produto> produtos) {
-		this.produtos = produtos;
 	}
 
 	@Override

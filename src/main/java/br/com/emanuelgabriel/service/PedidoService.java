@@ -19,7 +19,7 @@ public class PedidoService {
 
 	@Transactional(readOnly = true)
 	public List<PedidoDTO> buscarTodos() {
-		List<Pedido> listaPedidos = this.pedidoRepository.findAll();
+		List<Pedido> listaPedidos = this.pedidoRepository.buscarPedidosProdutos();
 		return listaPedidos.stream().map(p -> new PedidoDTO(p)).collect(Collectors.toList());
 	}
 
