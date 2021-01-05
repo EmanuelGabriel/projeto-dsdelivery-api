@@ -15,7 +15,6 @@ public class ProdutoInputModelRequest {
 	}
 
 	public ProdutoInputModelRequest(String nome, BigDecimal preco, String descricao, String imagemUri) {
-		super();
 		this.nome = nome;
 		this.preco = preco;
 		this.descricao = descricao;

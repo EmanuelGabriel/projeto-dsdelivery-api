@@ -1,4 +1,4 @@
-package br.com.emanuelgabriel.dto;
+package br.com.emanuelgabriel.dto.request;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -6,53 +6,35 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import br.com.emanuelgabriel.dto.ProdutoDTO;
 import br.com.emanuelgabriel.model.Pedido;
-import br.com.emanuelgabriel.model.enums.StatusPedido;
 
-public class PedidoDTO implements Serializable {
+public class PedidoInputModelRequest implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Long id;
 	private String endereco;
 	private Double latitude;
 	private Double longitude;
 	private LocalDateTime dataPedido;
-	private StatusPedido statusPedido;
 	private List<ProdutoDTO> produtos = new ArrayList<>();
-	// private List<ProdutoModelResponse> produtos = new ArrayList<>();
 
-	public PedidoDTO() {
+	public PedidoInputModelRequest() {
 	}
 
-	public PedidoDTO(Long id, String endereco, Double latitude, Double longitude, LocalDateTime dataPedido,
-			StatusPedido statusPedido) {
-		this.id = id;
+	public PedidoInputModelRequest(String endereco, Double latitude, Double longitude, LocalDateTime dataPedido) {
 		this.endereco = endereco;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.dataPedido = dataPedido;
-		this.statusPedido = statusPedido;
 	}
 
-	public PedidoDTO(Pedido pedido) {
-		id = pedido.getId();
+	public PedidoInputModelRequest(Pedido pedido) {
 		endereco = pedido.getEndereco();
 		latitude = pedido.getLatitude();
 		longitude = pedido.getLongitude();
 		dataPedido = pedido.getDataPedido();
-		statusPedido = pedido.getStatusPedido();
 		produtos = pedido.getProdutos().stream().map(p -> new ProdutoDTO(p)).collect(Collectors.toList());
-		// produtos = pedido.getProdutos().stream().map(p -> new
-		// ProdutoModelResponse(p)).collect(Collectors.toList());
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getEndereco() {
@@ -85,14 +67,6 @@ public class PedidoDTO implements Serializable {
 
 	public void setDataPedido(LocalDateTime dataPedido) {
 		this.dataPedido = dataPedido;
-	}
-
-	public StatusPedido getStatusPedido() {
-		return statusPedido;
-	}
-
-	public void setStatusPedido(StatusPedido statusPedido) {
-		this.statusPedido = statusPedido;
 	}
 
 	public List<ProdutoDTO> getProdutos() {

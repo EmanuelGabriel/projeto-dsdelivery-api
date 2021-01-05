@@ -10,6 +10,8 @@ import br.com.emanuelgabriel.model.Produto;
 @Repository
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
+	Produto findByNome(String nome);
+
 	// trazer todos os produtos ordenados por nome de forma crescente
 	List<Produto> findAllByOrderByNomeAsc();
 

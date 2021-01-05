@@ -43,6 +43,13 @@ public class Produto implements Serializable {
 		this.imagemUri = imagemUri;
 	}
 
+	public Produto(String nome, BigDecimal preco, String descricao, String imagemUri) {
+		this.nome = nome;
+		this.preco = preco;
+		this.descricao = descricao;
+		this.imagemUri = imagemUri;
+	}
+
 	public Long getId() {
 		return id;
 	}
