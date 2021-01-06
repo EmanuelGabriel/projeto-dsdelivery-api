@@ -2,13 +2,20 @@ package br.com.emanuelgabriel.dto.request;
 
 import java.math.BigDecimal;
 
+import javax.validation.constraints.NotBlank;
+
 import br.com.emanuelgabriel.model.Produto;
 
 public class ProdutoInputModelRequest {
 
+	@NotBlank(message = "Campo nome é obrigatório")
 	private String nome;
 	private BigDecimal preco;
+
+	@NotBlank(message = "Campo descrição é obrigatório")
 	private String descricao;
+
+	@NotBlank(message = "A URI da imagem é obrigatório")
 	private String imagemUri;
 
 	public ProdutoInputModelRequest() {
