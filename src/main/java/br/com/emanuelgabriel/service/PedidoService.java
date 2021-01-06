@@ -2,7 +2,6 @@ package br.com.emanuelgabriel.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
@@ -13,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.emanuelgabriel.dto.PedidoDTO;
 import br.com.emanuelgabriel.dto.ProdutoDTO;
-import br.com.emanuelgabriel.exceptions.ObjetoNaoEncontradoException;
 import br.com.emanuelgabriel.model.Pedido;
 import br.com.emanuelgabriel.model.Produto;
 import br.com.emanuelgabriel.model.enums.StatusPedido;
@@ -62,15 +60,6 @@ public class PedidoService {
 		pedido.setStatusPedido(StatusPedido.ENTREGUE);
 		pedido = this.pedidoRepository.save(pedido);
 		return new PedidoDTO(pedido);
-	}
-
-	public PedidoDTO buscarPorId(Long id) {
-		Optional<Pedido> pedido = this.pedidoRepository.findById(id);
-		if (!pedido.isPresent()) {
-			throw new ObjetoNaoEncontradoException(PEDIDO_CODIGO_NAO_ENCONTRADO);
-		}
-
-		return new PedidoDTO(pedido.get());
 	}
 
 }

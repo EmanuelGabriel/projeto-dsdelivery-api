@@ -20,7 +20,6 @@ public class PedidoDTO implements Serializable {
 	private LocalDateTime dataPedido;
 	private StatusPedido statusPedido;
 	private List<ProdutoDTO> produtos = new ArrayList<>();
-	// private List<ProdutoModelResponse> produtos = new ArrayList<>();
 
 	public PedidoDTO() {
 	}
