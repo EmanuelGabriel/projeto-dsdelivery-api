@@ -1,5 +1,6 @@
 package br.com.emanuelgabriel.resource;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
 
@@ -53,6 +54,13 @@ public class ProdutoResource {
 	@GetMapping("/buscar-nome")
 	public ResponseEntity<List<ProdutoModelResponse>> buscarPorNome(@PathParam("nomeProduto") String nomeProduto) {
 		List<ProdutoModelResponse> produtos = this.produtoService.buscarPorNome(nomeProduto);
+		return produtos != null ? ResponseEntity.ok().body(produtos) : ResponseEntity.notFound().build();
+	}
+
+	@GetMapping("/buscar-preco") /// {precoInicial}/{precoIFinal}
+	public ResponseEntity<List<ProdutoModelResponse>> buscarPorNome(@PathParam("precoInicial") BigDecimal precoInicial,
+			@PathParam("precoFinal") BigDecimal precoFinal) {
+		List<ProdutoModelResponse> produtos = this.produtoService.buscarPrecosValores(precoInicial, precoFinal);
 		return produtos != null ? ResponseEntity.ok().body(produtos) : ResponseEntity.notFound().build();
 	}
 

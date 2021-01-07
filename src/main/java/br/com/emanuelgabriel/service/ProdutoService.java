@@ -1,5 +1,6 @@
 package br.com.emanuelgabriel.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,6 +20,7 @@ public class ProdutoService {
 
 	private static final String PRODUTO_COD_NAO_ENCONTRADO = "Produto de código não encontrado";
 	private static final String NOME_PRODUTO_NAO_ENCONTRADO = "Produto de nome não encontrado";
+	private static final String NENHUM_PRODUTO_ENCONTRADO = "Nenhum produto encontrado";
 
 	@Autowired
 	private ProdutoRepository produtoRepository;
@@ -55,6 +57,15 @@ public class ProdutoService {
 		if (produtos.isEmpty()) {
 			throw new ObjetoNaoEncontradoException(NOME_PRODUTO_NAO_ENCONTRADO);
 		}
+		return produtos.stream().map(prod -> new ProdutoModelResponse(prod)).collect(Collectors.toList());
+	}
+
+	public List<ProdutoModelResponse> buscarPrecosValores(BigDecimal precoInicial, BigDecimal precoFinal) {
+		List<Produto> produtos = this.produtoRepository.findByPrecoValores(precoInicial, precoFinal);
+		if (produtos.isEmpty()) {
+			throw new ObjetoNaoEncontradoException(NENHUM_PRODUTO_ENCONTRADO);
+		}
+
 		return produtos.stream().map(prod -> new ProdutoModelResponse(prod)).collect(Collectors.toList());
 	}
 
