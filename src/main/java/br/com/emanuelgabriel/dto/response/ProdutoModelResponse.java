@@ -9,6 +9,7 @@ public class ProdutoModelResponse implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private Long id;
 	private String nome;
 	private BigDecimal preco;
 	private String descricao;
@@ -25,10 +26,19 @@ public class ProdutoModelResponse implements Serializable {
 	}
 
 	public ProdutoModelResponse(Produto produto) {
+		id = produto.getId();
 		nome = produto.getNome();
 		preco = produto.getPreco();
 		descricao = produto.getDescricao();
 		imagemUri = produto.getImagemUri();
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getNome() {

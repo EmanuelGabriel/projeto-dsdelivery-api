@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.com.emanuelgabriel.dto.PedidoDTO;
+import br.com.emanuelgabriel.dto.response.PedidoModelResponse;
 import br.com.emanuelgabriel.service.PedidoService;
 
 @RestController
@@ -30,14 +30,14 @@ public class PedidoResource {
 	private PedidoService pedidoService;
 
 	@GetMapping
-	public ResponseEntity<List<PedidoDTO>> buscarTodos() {
-		List<PedidoDTO> lista = this.pedidoService.buscarTodos();
+	public ResponseEntity<List<PedidoModelResponse>> buscarTodos() {
+		List<PedidoModelResponse> lista = this.pedidoService.buscarTodos();
 		return ResponseEntity.ok().body(lista);
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<PedidoDTO> salvar(@Valid @RequestBody PedidoDTO dto) {
+	public ResponseEntity<PedidoModelResponse> salvar(@Valid @RequestBody PedidoModelResponse dto) {
 
 		dto = this.pedidoService.salvar(dto);
 		URI location = getUri(dto.getId());
@@ -46,8 +46,8 @@ public class PedidoResource {
 	}
 
 	@PutMapping("/{idPedido}/entregue")
-	public ResponseEntity<PedidoDTO> entregaPedido(@PathVariable Long idPedido) {
-		PedidoDTO dto = this.pedidoService.pedidoEntregue(idPedido);
+	public ResponseEntity<PedidoModelResponse> entregaPedido(@PathVariable Long idPedido) {
+		PedidoModelResponse dto = this.pedidoService.pedidoEntregue(idPedido);
 		return ResponseEntity.ok().body(dto);
 	}
 

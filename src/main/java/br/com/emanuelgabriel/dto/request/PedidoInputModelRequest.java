@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import br.com.emanuelgabriel.dto.ProdutoDTO;
+import br.com.emanuelgabriel.dto.response.ProdutoModelResponse;
 import br.com.emanuelgabriel.model.Pedido;
 
 public class PedidoInputModelRequest implements Serializable {
@@ -17,7 +17,7 @@ public class PedidoInputModelRequest implements Serializable {
 	private Double latitude;
 	private Double longitude;
 	private LocalDateTime dataPedido;
-	private List<ProdutoDTO> produtos = new ArrayList<>();
+	private List<ProdutoModelResponse> produtos = new ArrayList<>();
 
 	public PedidoInputModelRequest() {
 	}
@@ -34,7 +34,7 @@ public class PedidoInputModelRequest implements Serializable {
 		latitude = pedido.getLatitude();
 		longitude = pedido.getLongitude();
 		dataPedido = pedido.getDataPedido();
-		produtos = pedido.getProdutos().stream().map(p -> new ProdutoDTO(p)).collect(Collectors.toList());
+		produtos = pedido.getProdutos().stream().map(p -> new ProdutoModelResponse(p)).collect(Collectors.toList());
 	}
 
 	public String getEndereco() {
@@ -69,11 +69,11 @@ public class PedidoInputModelRequest implements Serializable {
 		this.dataPedido = dataPedido;
 	}
 
-	public List<ProdutoDTO> getProdutos() {
+	public List<ProdutoModelResponse> getProdutos() {
 		return produtos;
 	}
 
-	public void setProdutos(List<ProdutoDTO> produtos) {
+	public void setProdutos(List<ProdutoModelResponse> produtos) {
 		this.produtos = produtos;
 	}
 

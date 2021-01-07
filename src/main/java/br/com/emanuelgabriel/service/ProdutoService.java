@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.emanuelgabriel.dto.ProdutoDTO;
 import br.com.emanuelgabriel.dto.request.ProdutoInputModelRequest;
+import br.com.emanuelgabriel.dto.response.ProdutoModelResponse;
 import br.com.emanuelgabriel.exceptions.ObjetoNaoEncontradoException;
 import br.com.emanuelgabriel.model.Produto;
 import br.com.emanuelgabriel.repository.ProdutoRepository;
@@ -23,30 +23,30 @@ public class ProdutoService {
 	private ProdutoRepository produtoRepository;
 
 	@Transactional
-	public ProdutoDTO salvar(ProdutoInputModelRequest request) {
+	public ProdutoModelResponse salvar(ProdutoInputModelRequest request) {
 
 		Produto produto = new Produto(request.getNome(), request.getPreco(), request.getDescricao(),
 				request.getImagemUri());
 
 		produto = this.produtoRepository.save(produto);
 
-		return new ProdutoDTO(produto);
+		return new ProdutoModelResponse(produto);
 
 	}
 
 	@Transactional(readOnly = true)
-	public List<ProdutoDTO> buscarTodos() {
+	public List<ProdutoModelResponse> buscarTodos() {
 		List<Produto> listaProdutos = this.produtoRepository.findAllByOrderByNomeAsc();
-		return listaProdutos.stream().map(p -> new ProdutoDTO(p)).collect(Collectors.toList());
+		return listaProdutos.stream().map(p -> new ProdutoModelResponse(p)).collect(Collectors.toList());
 	}
 
-	public ProdutoDTO buscarPorId(Long id) {
+	public ProdutoModelResponse buscarPorId(Long id) {
 		Optional<Produto> produto = this.produtoRepository.findById(id);
 		if (!produto.isPresent()) {
 			throw new ObjetoNaoEncontradoException(PRODUTO_COD_NAO_ENCONTRADO);
 		}
 
-		return new ProdutoDTO(produto.get());
+		return new ProdutoModelResponse(produto.get());
 	}
 
 }

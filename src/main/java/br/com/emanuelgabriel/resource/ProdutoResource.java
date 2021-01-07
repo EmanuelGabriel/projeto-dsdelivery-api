@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.com.emanuelgabriel.dto.ProdutoDTO;
 import br.com.emanuelgabriel.dto.request.ProdutoInputModelRequest;
+import br.com.emanuelgabriel.dto.response.ProdutoModelResponse;
 import br.com.emanuelgabriel.service.ProdutoService;
 
 @RestController
@@ -30,21 +30,21 @@ public class ProdutoResource {
 	private ProdutoService produtoService;
 
 	@GetMapping
-	public ResponseEntity<List<ProdutoDTO>> buscarTodos() {
-		List<ProdutoDTO> lista = this.produtoService.buscarTodos();
+	public ResponseEntity<List<ProdutoModelResponse>> buscarTodos() {
+		List<ProdutoModelResponse> lista = this.produtoService.buscarTodos();
 		return ResponseEntity.ok().body(lista);
 	}
 
 	@GetMapping("/{idProduto}")
-	public ResponseEntity<ProdutoDTO> buscarPorId(@PathVariable Long idProduto) {
-		ProdutoDTO produto = this.produtoService.buscarPorId(idProduto);
+	public ResponseEntity<ProdutoModelResponse> buscarPorId(@PathVariable Long idProduto) {
+		ProdutoModelResponse produto = this.produtoService.buscarPorId(idProduto);
 		return produto != null ? ResponseEntity.ok().body(produto) : ResponseEntity.notFound().build();
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<ProdutoDTO> salvar(@Valid @RequestBody ProdutoInputModelRequest request) {
-		ProdutoDTO dto = this.produtoService.salvar(request);
+	public ResponseEntity<ProdutoModelResponse> salvar(@Valid @RequestBody ProdutoInputModelRequest request) {
+		ProdutoModelResponse dto = this.produtoService.salvar(request);
 		URI location = getUri(dto.getId());
 		return ResponseEntity.created(location).build();
 	}
