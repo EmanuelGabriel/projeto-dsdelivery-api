@@ -18,15 +18,16 @@ import br.com.emanuelgabriel.repository.ProdutoRepository;
 public class ProdutoService {
 
 	private static final String PRODUTO_COD_NAO_ENCONTRADO = "Produto de código não encontrado";
+	private static final String NOME_PRODUTO_NAO_ENCONTRADO = "Produto de nome não encontrado";
 
 	@Autowired
 	private ProdutoRepository produtoRepository;
 
 	@Transactional
-	public ProdutoModelResponse salvar(ProdutoInputModelRequest request) {
+	public ProdutoModelResponse salvar(ProdutoInputModelRequest requestProduto) {
 
-		Produto produto = new Produto(request.getNome(), request.getPreco(), request.getDescricao(),
-				request.getImagemUri());
+		Produto produto = new Produto(requestProduto.getNome(), requestProduto.getPreco(),
+				requestProduto.getDescricao(), requestProduto.getImagemUri());
 
 		produto = this.produtoRepository.save(produto);
 
@@ -47,6 +48,14 @@ public class ProdutoService {
 		}
 
 		return new ProdutoModelResponse(produto.get());
+	}
+
+	public List<ProdutoModelResponse> buscarPorNome(String nome) {
+		List<Produto> produtos = this.produtoRepository.findByNomeContaining(nome);
+		if (produtos.isEmpty()) {
+			throw new ObjetoNaoEncontradoException(NOME_PRODUTO_NAO_ENCONTRADO);
+		}
+		return produtos.stream().map(prod -> new ProdutoModelResponse(prod)).collect(Collectors.toList());
 	}
 
 }

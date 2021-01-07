@@ -10,6 +10,7 @@ public class ProdutoInputModelRequest {
 
 	@NotBlank(message = "Campo nome é obrigatório")
 	private String nome;
+
 	private BigDecimal preco;
 
 	@NotBlank(message = "Campo descrição é obrigatório")

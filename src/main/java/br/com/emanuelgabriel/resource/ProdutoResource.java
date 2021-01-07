@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,14 @@ public class ProdutoResource {
 	@Autowired
 	private ProdutoService produtoService;
 
+	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<ProdutoModelResponse> salvar(@Valid @RequestBody ProdutoInputModelRequest request) {
+		ProdutoModelResponse dto = this.produtoService.salvar(request);
+		URI location = getUri(dto.getId());
+		return ResponseEntity.created(location).build();
+	}
+
 	@GetMapping
 	public ResponseEntity<List<ProdutoModelResponse>> buscarTodos() {
 		List<ProdutoModelResponse> lista = this.produtoService.buscarTodos();
@@ -41,12 +50,10 @@ public class ProdutoResource {
 		return produto != null ? ResponseEntity.ok().body(produto) : ResponseEntity.notFound().build();
 	}
 
-	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<ProdutoModelResponse> salvar(@Valid @RequestBody ProdutoInputModelRequest request) {
-		ProdutoModelResponse dto = this.produtoService.salvar(request);
-		URI location = getUri(dto.getId());
-		return ResponseEntity.created(location).build();
+	@GetMapping("/buscar-nome")
+	public ResponseEntity<List<ProdutoModelResponse>> buscarPorNome(@PathParam("nomeProduto") String nomeProduto) {
+		List<ProdutoModelResponse> produtos = this.produtoService.buscarPorNome(nomeProduto);
+		return produtos != null ? ResponseEntity.ok().body(produtos) : ResponseEntity.notFound().build();
 	}
 
 	private URI getUri(Long id) {
