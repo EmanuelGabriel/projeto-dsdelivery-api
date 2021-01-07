@@ -57,7 +57,7 @@ public class ProdutoResource {
 		return produtos != null ? ResponseEntity.ok().body(produtos) : ResponseEntity.notFound().build();
 	}
 
-	@GetMapping("/buscar-preco") /// {precoInicial}/{precoIFinal}
+	@GetMapping("/buscar-produto-preco")
 	public ResponseEntity<List<ProdutoModelResponse>> buscarPorNome(@PathParam("precoInicial") BigDecimal precoInicial,
 			@PathParam("precoFinal") BigDecimal precoFinal) {
 		List<ProdutoModelResponse> produtos = this.produtoService.buscarPrecosValores(precoInicial, precoFinal);

@@ -1,22 +1,17 @@
 package br.com.emanuelgabriel.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "produto")
-public class Produto implements Serializable {
+@Table(name = "fornecedor")
+public class Fornecedor implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -28,34 +23,16 @@ public class Produto implements Serializable {
 	@Column(nullable = false, length = 60)
 	private String nome;
 
-	private BigDecimal preco;
-
-	@Column(length = 100)
+	@Column(length = 70)
 	private String descricao;
 
-	@Column(name = "imagem_uri")
-	private String imagemUri;
-
-	@OneToMany
-	@JoinColumn(name = "produto_id")
-	private List<Fornecedor> fornecedores = new ArrayList<>();
-
-	public Produto() {
+	public Fornecedor() {
 	}
 
-	public Produto(Long id, String nome, BigDecimal preco, String descricao, String imagemUri) {
+	public Fornecedor(Long id, String nome, String descricao) {
 		this.id = id;
 		this.nome = nome;
-		this.preco = preco;
 		this.descricao = descricao;
-		this.imagemUri = imagemUri;
-	}
-
-	public Produto(String nome, BigDecimal preco, String descricao, String imagemUri) {
-		this.nome = nome;
-		this.preco = preco;
-		this.descricao = descricao;
-		this.imagemUri = imagemUri;
 	}
 
 	public Long getId() {
@@ -74,32 +51,12 @@ public class Produto implements Serializable {
 		this.nome = nome;
 	}
 
-	public BigDecimal getPreco() {
-		return preco;
-	}
-
-	public void setPreco(BigDecimal preco) {
-		this.preco = preco;
-	}
-
 	public String getDescricao() {
 		return descricao;
 	}
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
-	}
-
-	public String getImagemUri() {
-		return imagemUri;
-	}
-
-	public void setImagemUri(String imagemUri) {
-		this.imagemUri = imagemUri;
-	}
-
-	public List<Fornecedor> getFornecedores() {
-		return fornecedores;
 	}
 
 	@Override
@@ -118,7 +75,7 @@ public class Produto implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Produto other = (Produto) obj;
+		Fornecedor other = (Fornecedor) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

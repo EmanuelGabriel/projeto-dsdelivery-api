@@ -8,6 +8,17 @@ INSERT INTO produto (nome, preco, imagem_uri, descricao) VALUES ('Macarrão Espa
 INSERT INTO produto (nome, preco, imagem_uri, descricao) VALUES ('Macarrão Fusili', 38.0, 'https://raw.githubusercontent.com/devsuperior/sds2/master/assets/macarrao_fusili.jpg', 'Macarrão fusili com toque do chef e especiarias.');
 INSERT INTO produto (nome, preco, imagem_uri, descricao) VALUES ('Macarrão Penne', 37.9, 'https://raw.githubusercontent.com/devsuperior/sds2/master/assets/macarrao_penne.jpg', 'Macarrão penne fresco ao dente com tempero especial.');
 
+-- INSERIR DADOS NA TABELA DE FORNECEDOR
+INSERT INTO fornecedor (nome, descricao, produto_id) VALUES ('São João Alimentos', 'São João Alimentos Ltda', 1);
+INSERT INTO fornecedor (nome, descricao, produto_id) VALUES ('Pizza Las Vegas Amorin', 'Las Vegas Amorin Ltda', 2);
+INSERT INTO fornecedor (nome, descricao, produto_id) VALUES ('Sabor demais', 'Sabor demais Alimentos', 3);
+INSERT INTO fornecedor (nome, descricao, produto_id) VALUES ('Norte Sabor e Degustação Alimentos', 'Norte Sabor e Degustação Alimentos Ltda', 4);
+INSERT INTO fornecedor (nome, descricao, produto_id) VALUES ('Comida da Mamãe Alimentos', 'Comida da Mamãe Ltda', 5);
+INSERT INTO fornecedor (nome, descricao, produto_id) VALUES ('Vem comer?', 'Vem Comer Alimentos Ltda', 6);
+INSERT INTO fornecedor (nome, descricao, produto_id) VALUES ('DegusteMe Alimentos', 'DegusteMe Ltda', 7);
+INSERT INTO fornecedor (nome, descricao, produto_id) VALUES ('Que Sabor é este?', 'Corporação Junta Alimentos', 8);
+INSERT INTO fornecedor (nome, descricao, produto_id) VALUES ('Alimentos Frescos', 'Alimentos Frescos Corporation', 8);
+
 -- INSERIR DADOS NA TABELA PEDIDO
 INSERT INTO pedido (status_pedido, latitude, longitude, endereco, data_pedido) VALUES (0, -23.561680, -46.656139, 'Avenida Paulista, 1500', TIMESTAMP WITH TIME ZONE '2021-01-01T10:00:00Z');
 INSERT INTO pedido (status_pedido, latitude, longitude, endereco, data_pedido) VALUES (1, -22.946779, -43.217753, 'Avenida Paulista, 1500', TIMESTAMP WITH TIME ZONE '2021-01-01T15:00:00Z');

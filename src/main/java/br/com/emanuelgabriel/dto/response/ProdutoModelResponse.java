@@ -2,6 +2,9 @@ package br.com.emanuelgabriel.dto.response;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import br.com.emanuelgabriel.model.Produto;
 
@@ -14,6 +17,7 @@ public class ProdutoModelResponse implements Serializable {
 	private BigDecimal preco;
 	private String descricao;
 	private String imagemUri;
+	private List<FornecedorModelResponse> fornecedores = new ArrayList<>();
 
 	public ProdutoModelResponse() {
 	}
@@ -31,6 +35,8 @@ public class ProdutoModelResponse implements Serializable {
 		preco = produto.getPreco();
 		descricao = produto.getDescricao();
 		imagemUri = produto.getImagemUri();
+		fornecedores = produto.getFornecedores().stream().map(f -> new FornecedorModelResponse(f))
+				.collect(Collectors.toList());
 	}
 
 	public Long getId() {
@@ -71,6 +77,14 @@ public class ProdutoModelResponse implements Serializable {
 
 	public void setImagemUri(String imagemUri) {
 		this.imagemUri = imagemUri;
+	}
+
+	public List<FornecedorModelResponse> getFornecedores() {
+		return fornecedores;
+	}
+
+	public void setFornecedores(List<FornecedorModelResponse> fornecedores) {
+		this.fornecedores = fornecedores;
 	}
 
 }

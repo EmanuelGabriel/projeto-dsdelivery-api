@@ -15,7 +15,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
 	List<Produto> findByNomeContaining(String nome);
 	
-	@Query("SELECT p FROM Produto p WHERE p.preco >= :precoInicial AND p.preco <= :precoFinal ORDER BY preco")
+	@Query("SELECT p FROM Produto p JOIN FETCH p.fornecedores WHERE p.preco >= :precoInicial AND p.preco <= :precoFinal ORDER BY preco")
 	List<Produto> findByPrecoValores(@Param("precoInicial") BigDecimal precoInicial, @Param("precoFinal") BigDecimal precoFinal);
 
 	// trazer todos os produtos ordenados por nome de forma crescente ASC
