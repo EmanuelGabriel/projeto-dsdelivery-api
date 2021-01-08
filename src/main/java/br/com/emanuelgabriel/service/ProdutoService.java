@@ -21,6 +21,7 @@ public class ProdutoService {
 	private static final String PRODUTO_COD_NAO_ENCONTRADO = "Produto de código não encontrado";
 	private static final String NOME_PRODUTO_NAO_ENCONTRADO = "Produto de nome não encontrado";
 	private static final String NENHUM_PRODUTO_ENCONTRADO = "Nenhum produto encontrado";
+	private static final String NOME_PRODUTO_OU_DESCRICAO_NAO_ENCONTRADO = "Nome do produto ou descrição não encontrado";
 
 	@Autowired
 	private ProdutoRepository produtoRepository;
@@ -52,6 +53,7 @@ public class ProdutoService {
 		return new ProdutoModelResponse(produto.get());
 	}
 
+	@Transactional
 	public List<ProdutoModelResponse> buscarPorNome(String nome) {
 		List<Produto> produtos = this.produtoRepository.findByNomeContaining(nome);
 		if (produtos.isEmpty()) {
@@ -60,7 +62,19 @@ public class ProdutoService {
 		return produtos.stream().map(prod -> new ProdutoModelResponse(prod)).collect(Collectors.toList());
 	}
 
-	public List<ProdutoModelResponse> buscarPrecosValores(BigDecimal precoInicial, BigDecimal precoFinal) {
+	@Transactional(readOnly = true)
+	public List<ProdutoModelResponse> buscarPorNomeDescricao(String nome, String descricao) {
+		List<Produto> produtos = this.produtoRepository.findByNomeIgnoreCaseOrDescricaoIgnoreCaseContaining(nome,
+				descricao);
+		if (produtos.isEmpty()) {
+			throw new ObjetoNaoEncontradoException(NOME_PRODUTO_OU_DESCRICAO_NAO_ENCONTRADO);
+		}
+
+		return produtos.stream().map(prod -> new ProdutoModelResponse(prod)).collect(Collectors.toList());
+	}
+
+	@Transactional
+	public List<ProdutoModelResponse> buscarPrecosProdutos(BigDecimal precoInicial, BigDecimal precoFinal) {
 		List<Produto> produtos = this.produtoRepository.findByPrecoValores(precoInicial, precoFinal);
 		if (produtos.isEmpty()) {
 			throw new ObjetoNaoEncontradoException(NENHUM_PRODUTO_ENCONTRADO);

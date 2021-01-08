@@ -57,10 +57,17 @@ public class ProdutoResource {
 		return produtos != null ? ResponseEntity.ok().body(produtos) : ResponseEntity.notFound().build();
 	}
 
+	@GetMapping("/buscar-nome-descricao")
+	public ResponseEntity<List<ProdutoModelResponse>> buscarPorNomeOuDescricao(@PathParam("nome") String nome,
+			@PathParam("descricao") String descricao) {
+		List<ProdutoModelResponse> produtos = this.produtoService.buscarPorNomeDescricao(nome, descricao);
+		return produtos != null ? ResponseEntity.ok().body(produtos) : ResponseEntity.notFound().build();
+	}
+
 	@GetMapping("/buscar-produto-preco")
-	public ResponseEntity<List<ProdutoModelResponse>> buscarPorNome(@PathParam("precoInicial") BigDecimal precoInicial,
+	public ResponseEntity<List<ProdutoModelResponse>> buscarPorPreco(@PathParam("precoInicial") BigDecimal precoInicial,
 			@PathParam("precoFinal") BigDecimal precoFinal) {
-		List<ProdutoModelResponse> produtos = this.produtoService.buscarPrecosValores(precoInicial, precoFinal);
+		List<ProdutoModelResponse> produtos = this.produtoService.buscarPrecosProdutos(precoInicial, precoFinal);
 		return produtos != null ? ResponseEntity.ok().body(produtos) : ResponseEntity.notFound().build();
 	}
 

@@ -13,6 +13,8 @@ import br.com.emanuelgabriel.model.Produto;
 @Repository
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
+	List<Produto> findByNomeIgnoreCaseOrDescricaoIgnoreCaseContaining(String nome, String descricao);
+	
 	List<Produto> findByNomeContaining(String nome);
 	
 	@Query("SELECT p FROM Produto p JOIN FETCH p.fornecedores WHERE p.preco >= :precoInicial AND p.preco <= :precoFinal ORDER BY preco")
