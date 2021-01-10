@@ -1,6 +1,5 @@
 package br.com.emanuelgabriel.resource;
 
-import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -10,20 +9,22 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.com.emanuelgabriel.dto.request.PedidoInputModelRequest;
+import br.com.emanuelgabriel.dto.response.PedidoConfirmadoModelResponse;
+import br.com.emanuelgabriel.dto.response.PedidoEntregaConfirmadaModelResponse;
 import br.com.emanuelgabriel.dto.response.PedidoModelResponse;
 import br.com.emanuelgabriel.service.PedidoService;
 
 @RestController
-@RequestMapping(value = "/pedidos", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/v1/pedidos", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PedidoResource {
 
 	@Autowired
@@ -36,23 +37,28 @@ public class PedidoResource {
 	}
 
 	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<PedidoModelResponse> salvar(@Valid @RequestBody PedidoModelResponse dto) {
-
-		dto = this.pedidoService.salvar(dto);
-		URI location = getUri(dto.getId());
-		return ResponseEntity.created(location).build();
+	public ResponseEntity<PedidoModelResponse> salvar(@Valid @RequestBody PedidoInputModelRequest dto) {
+		dto = this.pedidoService.criar(dto);
+		return ResponseEntity.status(HttpStatus.CREATED).build();
 
 	}
 
-	@PutMapping("/{idPedido}/entregue")
-	public ResponseEntity<PedidoModelResponse> entregaPedido(@PathVariable Long idPedido) {
-		PedidoModelResponse dto = this.pedidoService.pedidoEntregue(idPedido);
+	@GetMapping("/{idPedido}")
+	public ResponseEntity<PedidoModelResponse> buscarPorId(@PathVariable Long idPedido) {
+		PedidoModelResponse dto = this.pedidoService.buscarPorId(idPedido);
+		return dto != null ? ResponseEntity.ok().body(dto) : ResponseEntity.notFound().build();
+	}
+
+	@PatchMapping("/{idPedido}/confirmado")
+	public ResponseEntity<PedidoConfirmadoModelResponse> pedidoConfirmado(@PathVariable Long idPedido) {
+		PedidoConfirmadoModelResponse dto = this.pedidoService.confirmarPedido(idPedido);
 		return ResponseEntity.ok().body(dto);
 	}
 
-	private URI getUri(Long id) {
-		return ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(id).toUri();
+	@PutMapping("/{idPedido}/entrega")
+	public ResponseEntity<PedidoEntregaConfirmadaModelResponse> entregaPedido(@PathVariable Long idPedido) {
+		PedidoEntregaConfirmadaModelResponse dto = this.pedidoService.entregarPedido(idPedido);
+		return ResponseEntity.ok().body(dto);
 	}
 
 }

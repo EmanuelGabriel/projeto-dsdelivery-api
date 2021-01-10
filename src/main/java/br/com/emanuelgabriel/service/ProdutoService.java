@@ -10,9 +10,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.emanuelgabriel.dto.request.ProdutoInputModelRequest;
+import br.com.emanuelgabriel.dto.response.FornecedorParcialModelResponse;
 import br.com.emanuelgabriel.dto.response.ProdutoModelResponse;
 import br.com.emanuelgabriel.exceptions.ObjetoNaoEncontradoException;
+import br.com.emanuelgabriel.exceptions.ProdutoNaoEncontradoException;
+import br.com.emanuelgabriel.model.Fornecedor;
 import br.com.emanuelgabriel.model.Produto;
+import br.com.emanuelgabriel.repository.FornecedorRepository;
 import br.com.emanuelgabriel.repository.ProdutoRepository;
 
 @Service
@@ -26,11 +30,19 @@ public class ProdutoService {
 	@Autowired
 	private ProdutoRepository produtoRepository;
 
+	@Autowired
+	private FornecedorRepository fornecedorRepository;
+
 	@Transactional
 	public ProdutoModelResponse salvar(ProdutoInputModelRequest requestProduto) {
 
-		Produto produto = new Produto(requestProduto.getNome(), requestProduto.getPreco(),
-				requestProduto.getDescricao(), requestProduto.getImagemUri());
+		Produto produto = new Produto(requestProduto.getNome(), requestProduto.getPrecoUnitario(),
+				requestProduto.getQuantidadeEstoque(), requestProduto.getDescricao(), requestProduto.getImagemUri());
+
+		for (FornecedorParcialModelResponse fpr : requestProduto.getFornecedores()) {
+			Fornecedor fornecedor = this.fornecedorRepository.getOne(fpr.getId());
+			produto.getFornecedores().add(fornecedor);
+		}
 
 		produto = this.produtoRepository.save(produto);
 
@@ -44,6 +56,7 @@ public class ProdutoService {
 		return listaProdutos.stream().map(p -> new ProdutoModelResponse(p)).collect(Collectors.toList());
 	}
 
+	@Transactional
 	public ProdutoModelResponse buscarPorId(Long id) {
 		Optional<Produto> produto = this.produtoRepository.findById(id);
 		if (!produto.isPresent()) {
@@ -55,7 +68,7 @@ public class ProdutoService {
 
 	@Transactional
 	public List<ProdutoModelResponse> buscarPorNome(String nome) {
-		List<Produto> produtos = this.produtoRepository.findByNomeContaining(nome);
+		List<Produto> produtos = this.produtoRepository.findByNomeIgnoreCaseContaining(nome);
 		if (produtos.isEmpty()) {
 			throw new ObjetoNaoEncontradoException(NOME_PRODUTO_NAO_ENCONTRADO);
 		}
@@ -64,8 +77,8 @@ public class ProdutoService {
 
 	@Transactional(readOnly = true)
 	public List<ProdutoModelResponse> buscarPorNomeDescricao(String nome, String descricao) {
-		List<Produto> produtos = this.produtoRepository.findByNomeIgnoreCaseOrDescricaoIgnoreCaseContaining(nome,
-				descricao);
+		List<Produto> produtos = this.produtoRepository
+				.findByNomeIgnoreCaseContainingOrDescricaoIgnoreCaseContaining(nome, descricao);
 		if (produtos.isEmpty()) {
 			throw new ObjetoNaoEncontradoException(NOME_PRODUTO_OU_DESCRICAO_NAO_ENCONTRADO);
 		}
@@ -81,6 +94,11 @@ public class ProdutoService {
 		}
 
 		return produtos.stream().map(prod -> new ProdutoModelResponse(prod)).collect(Collectors.toList());
+	}
+
+	public Produto buscarOuFalhar(Long idProduto) {
+		return this.produtoRepository.findById(idProduto)
+				.orElseThrow(() -> new ProdutoNaoEncontradoException(PRODUTO_COD_NAO_ENCONTRADO));
 	}
 
 }

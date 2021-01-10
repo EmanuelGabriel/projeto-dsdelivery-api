@@ -25,7 +25,7 @@ import br.com.emanuelgabriel.dto.response.ProdutoModelResponse;
 import br.com.emanuelgabriel.service.ProdutoService;
 
 @RestController
-@RequestMapping(value = "/produtos", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/v1/produtos", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProdutoResource {
 
 	@Autowired

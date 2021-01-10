@@ -28,7 +28,13 @@ public class Produto implements Serializable {
 	@Column(nullable = false, length = 60)
 	private String nome;
 
-	private BigDecimal preco;
+	@Column(name = "preco_unitario")
+	private BigDecimal precoUnitario;
+
+	@Column(name = "preco_total")
+	private BigDecimal precoTotal;
+
+	private Integer quantidade;
 
 	@Column(length = 100)
 	private String descricao;
@@ -43,17 +49,21 @@ public class Produto implements Serializable {
 	public Produto() {
 	}
 
-	public Produto(Long id, String nome, BigDecimal preco, String descricao, String imagemUri) {
+	public Produto(Long id, String nome, BigDecimal precoUnitario, BigDecimal precoTotal, Integer quantidade,
+			String descricao, String imagemUri) {
 		this.id = id;
 		this.nome = nome;
-		this.preco = preco;
+		this.precoUnitario = precoUnitario;
+		this.precoTotal = precoTotal;
+		this.quantidade = quantidade;
 		this.descricao = descricao;
 		this.imagemUri = imagemUri;
 	}
 
-	public Produto(String nome, BigDecimal preco, String descricao, String imagemUri) {
+	public Produto(String nome, BigDecimal precoUnitario, Integer quantidade, String descricao, String imagemUri) {
 		this.nome = nome;
-		this.preco = preco;
+		this.precoUnitario = precoUnitario;
+		this.quantidade = quantidade;
 		this.descricao = descricao;
 		this.imagemUri = imagemUri;
 	}
@@ -74,12 +84,12 @@ public class Produto implements Serializable {
 		this.nome = nome;
 	}
 
-	public BigDecimal getPreco() {
-		return preco;
+	public BigDecimal getPrecoUnitario() {
+		return precoUnitario;
 	}
 
-	public void setPreco(BigDecimal preco) {
-		this.preco = preco;
+	public void setPrecoUnitario(BigDecimal precoUnitario) {
+		this.precoUnitario = precoUnitario;
 	}
 
 	public String getDescricao() {
@@ -98,8 +108,48 @@ public class Produto implements Serializable {
 		this.imagemUri = imagemUri;
 	}
 
+	public BigDecimal getPrecoTotal() {
+		return precoTotal;
+	}
+
+	public void setPrecoTotal(BigDecimal precoTotal) {
+		this.precoTotal = precoTotal;
+	}
+
+	public Integer getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(Integer quantidade) {
+		this.quantidade = quantidade;
+	}
+
+	public void setFornecedores(List<Fornecedor> fornecedores) {
+		this.fornecedores = fornecedores;
+	}
+
 	public List<Fornecedor> getFornecedores() {
 		return fornecedores;
+	}
+
+	/**
+	 * Calcula o preço total do Produtos
+	 */
+	public void calcularPrecoTotal() {
+
+		BigDecimal precoUnitario = this.getPrecoUnitario();
+		Integer quantidade = this.getQuantidade();
+
+		if (precoUnitario == null) {
+			precoUnitario = BigDecimal.ZERO;
+		}
+
+		if (quantidade == null) {
+			quantidade = 0;
+		}
+
+		this.setPrecoTotal(precoUnitario.multiply(new BigDecimal(quantidade)));
+
 	}
 
 	@Override

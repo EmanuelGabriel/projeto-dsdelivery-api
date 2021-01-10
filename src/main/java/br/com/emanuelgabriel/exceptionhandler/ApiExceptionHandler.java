@@ -27,6 +27,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import br.com.emanuelgabriel.exceptionhandler.Problema.Campo;
 import br.com.emanuelgabriel.exceptionhandler.ProblemaResponse.ProblemaResponseBuilder;
 import br.com.emanuelgabriel.exceptions.ObjetoNaoEncontradoException;
+import br.com.emanuelgabriel.exceptions.PedidoNaoEncontradoException;
+import br.com.emanuelgabriel.exceptions.ProdutoNaoEncontradoException;
 import br.com.emanuelgabriel.exceptions.RegraNegocioException;
 
 @ControllerAdvice
@@ -76,6 +78,31 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(EntityNotFoundException.class)
 	public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException ex, WebRequest request) {
+
+		HttpStatus status = HttpStatus.NOT_FOUND;
+		TipoProblema tipoProblema = TipoProblema.RECURSO_NAO_ENCONTRADO;
+		String detalhe = ex.getMessage();
+
+		ProblemaResponse problema = criarProblemaBuilder(status, tipoProblema, detalhe).mensagem(detalhe).build();
+
+		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
+	}
+
+	@ExceptionHandler(ProdutoNaoEncontradoException.class)
+	public ResponseEntity<?> handleEntidadeNaoEncontradaException(ProdutoNaoEncontradoException ex,
+			WebRequest request) {
+
+		HttpStatus status = HttpStatus.NOT_FOUND;
+		TipoProblema tipoProblema = TipoProblema.RECURSO_NAO_ENCONTRADO;
+		String detalhe = ex.getMessage();
+
+		ProblemaResponse problema = criarProblemaBuilder(status, tipoProblema, detalhe).mensagem(detalhe).build();
+
+		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
+	}
+
+	@ExceptionHandler(PedidoNaoEncontradoException.class)
+	public ResponseEntity<?> handleEntidadeNaoEncontradaException(PedidoNaoEncontradoException ex, WebRequest request) {
 
 		HttpStatus status = HttpStatus.NOT_FOUND;
 		TipoProblema tipoProblema = TipoProblema.RECURSO_NAO_ENCONTRADO;

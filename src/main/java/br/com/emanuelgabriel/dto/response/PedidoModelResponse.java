@@ -1,7 +1,8 @@
 package br.com.emanuelgabriel.dto.response;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,21 +18,25 @@ public class PedidoModelResponse implements Serializable {
 	private String endereco;
 	private Double latitude;
 	private Double longitude;
-	private LocalDateTime dataPedido;
+	private OffsetDateTime dataPedido;
 	private StatusPedido statusPedido;
-	private List<ProdutoModelResponse> produtos = new ArrayList<>();
+	private BigDecimal taxaFrete;
+	private BigDecimal valorTotal;
+	private List<ProdutoParcialModelResponse> produtos = new ArrayList<>();
 
 	public PedidoModelResponse() {
 	}
 
-	public PedidoModelResponse(Long id, String endereco, Double latitude, Double longitude, LocalDateTime dataPedido,
-			StatusPedido statusPedido) {
+	public PedidoModelResponse(Long id, String endereco, Double latitude, Double longitude, OffsetDateTime dataPedido,
+			StatusPedido statusPedido, BigDecimal valorTotal, BigDecimal taxaFrete) {
 		this.id = id;
 		this.endereco = endereco;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.dataPedido = dataPedido;
 		this.statusPedido = statusPedido;
+		this.taxaFrete = taxaFrete;
+		this.valorTotal = valorTotal;
 	}
 
 	public PedidoModelResponse(Pedido pedido) {
@@ -41,7 +46,9 @@ public class PedidoModelResponse implements Serializable {
 		longitude = pedido.getLongitude();
 		dataPedido = pedido.getDataPedido();
 		statusPedido = pedido.getStatusPedido();
-		produtos = pedido.getProdutos().stream().map(prod -> new ProdutoModelResponse(prod))
+		taxaFrete = pedido.getTaxaFrete();
+		valorTotal = pedido.getTotal01();
+		produtos = pedido.getProdutos().stream().map(prod -> new ProdutoParcialModelResponse(prod))
 				.collect(Collectors.toList());
 	}
 
@@ -77,11 +84,11 @@ public class PedidoModelResponse implements Serializable {
 		this.longitude = longitude;
 	}
 
-	public LocalDateTime getDataPedido() {
+	public OffsetDateTime getDataPedido() {
 		return dataPedido;
 	}
 
-	public void setDataPedido(LocalDateTime dataPedido) {
+	public void setDataPedido(OffsetDateTime dataPedido) {
 		this.dataPedido = dataPedido;
 	}
 
@@ -93,11 +100,27 @@ public class PedidoModelResponse implements Serializable {
 		this.statusPedido = statusPedido;
 	}
 
-	public List<ProdutoModelResponse> getProdutos() {
+	public BigDecimal getTaxaFrete() {
+		return taxaFrete;
+	}
+
+	public void setTaxaFrete(BigDecimal taxaFrete) {
+		this.taxaFrete = taxaFrete;
+	}
+
+	public BigDecimal getValorTotal() {
+		return valorTotal;
+	}
+
+	public void setValorTotal(BigDecimal valorTotal) {
+		this.valorTotal = valorTotal;
+	}
+
+	public List<ProdutoParcialModelResponse> getProdutos() {
 		return produtos;
 	}
 
-	public void setProdutos(List<ProdutoModelResponse> produtos) {
+	public void setProdutos(List<ProdutoParcialModelResponse> produtos) {
 		this.produtos = produtos;
 	}
 
