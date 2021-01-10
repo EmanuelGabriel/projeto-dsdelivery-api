@@ -49,13 +49,13 @@ public class PedidoResource {
 		return dto != null ? ResponseEntity.ok().body(dto) : ResponseEntity.notFound().build();
 	}
 
-	@PatchMapping("/{idPedido}/confirmado")
+	@PatchMapping("/{idPedido}/status/confirmacao")
 	public ResponseEntity<PedidoConfirmadoModelResponse> pedidoConfirmado(@PathVariable Long idPedido) {
 		PedidoConfirmadoModelResponse dto = this.pedidoService.confirmarPedido(idPedido);
 		return ResponseEntity.ok().body(dto);
 	}
 
-	@PutMapping("/{idPedido}/entrega")
+	@PutMapping("/{idPedido}/status/entrega")
 	public ResponseEntity<PedidoEntregaConfirmadaModelResponse> entregaPedido(@PathVariable Long idPedido) {
 		PedidoEntregaConfirmadaModelResponse dto = this.pedidoService.entregarPedido(idPedido);
 		return ResponseEntity.ok().body(dto);
