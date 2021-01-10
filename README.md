@@ -20,11 +20,22 @@ Criação do projeto da semana DevSuperior 2.0 - Delivery API REST
   - Entidades e relacionamentos
   - Mapeamento objeto-relacional
   - Seed
+  
 - Criar endpoints
-  - [GET] /produtos
-  - [GET] /pedidos
-  - [POST] /pedidos
-  - [PUT] /pedidos/{id}/entregue
+  - [GET] /v1/pedidos
+  - [POST] /v1/pedidos
+  - [GET] /v1/pedidos/{idPedido}
+  - [PATCH] /v1/{idPedido}/status/confirmacao
+  - [PUT] /v1/{idPedido}/status/entrega
+  
+  - [GET] /v1/produtos
+  - [POST] /v1/produtos
+  - [GET] /v1/produtos/{idProduto}
+  - [GET] /v1/produtos/buscar-nome
+  - [GET] /v1/produtos/buscar-nome-descricao
+  - [GET] /v1/produtos/buscar-produto-preco
+  
+
 - Validar perfil dev
   - Base de dados Postgres local
   - Testar todos endpoints
