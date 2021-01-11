@@ -68,7 +68,7 @@ public class ProdutoService {
 
 	@Transactional
 	public List<ProdutoModelResponse> buscarPorNome(String nome) {
-		List<Produto> produtos = this.produtoRepository.findByNomeIgnoreCaseContaining(nome);
+		List<Produto> produtos = this.produtoRepository.findByNomeContainingIgnoreCase(nome);
 		if (produtos.isEmpty()) {
 			throw new ObjetoNaoEncontradoException(NOME_PRODUTO_NAO_ENCONTRADO);
 		}
@@ -78,7 +78,7 @@ public class ProdutoService {
 	@Transactional(readOnly = true)
 	public List<ProdutoModelResponse> buscarPorNomeDescricao(String nome, String descricao) {
 		List<Produto> produtos = this.produtoRepository
-				.findByNomeIgnoreCaseContainingOrDescricaoIgnoreCaseContaining(nome, descricao);
+				.findByNomeContainingIgnoreCaseOrDescricaoContainingIgnoreCase(nome, descricao);
 		if (produtos.isEmpty()) {
 			throw new ObjetoNaoEncontradoException(NOME_PRODUTO_OU_DESCRICAO_NAO_ENCONTRADO);
 		}
