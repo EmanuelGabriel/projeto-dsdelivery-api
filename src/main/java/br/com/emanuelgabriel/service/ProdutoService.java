@@ -96,6 +96,16 @@ public class ProdutoService {
 		return produtos.stream().map(prod -> new ProdutoModelResponse(prod)).collect(Collectors.toList());
 	}
 
+	@Transactional
+	public List<ProdutoModelResponse> buscarProdutosPorMenorPreco(BigDecimal menorPreco) {
+		List<Produto> produtos = this.produtoRepository
+				.findByPrecoUnitarioLessThanEqualOrderByPrecoUnitarioAsc(menorPreco);
+		if (produtos.isEmpty()) {
+			throw new ObjetoNaoEncontradoException("Produto com menor preço não encontrado");
+		}
+		return produtos.stream().map(p -> new ProdutoModelResponse(p)).collect(Collectors.toList());
+	}
+
 	public Produto buscarOuFalhar(Long idProduto) {
 		return this.produtoRepository.findById(idProduto)
 				.orElseThrow(() -> new ProdutoNaoEncontradoException(PRODUTO_COD_NAO_ENCONTRADO));

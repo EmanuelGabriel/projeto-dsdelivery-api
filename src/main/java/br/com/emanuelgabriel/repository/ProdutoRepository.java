@@ -14,14 +14,16 @@ import br.com.emanuelgabriel.model.Produto;
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
 	List<Produto> findByNomeContainingIgnoreCaseOrDescricaoContainingIgnoreCase(String nome, String descricao);
-	
+
 	List<Produto> findByNomeContainingIgnoreCase(String nome);
-	
+
 	@Query("SELECT p FROM Produto p JOIN FETCH p.fornecedores WHERE p.precoUnitario >= :precoInicial AND p.precoUnitario <= :precoFinal ORDER BY p.precoUnitario")
-	List<Produto> findByPrecoValores(@Param("precoInicial") BigDecimal precoInicial, @Param("precoFinal") BigDecimal precoFinal);
+	List<Produto> findByPrecoValores(@Param("precoInicial") BigDecimal precoInicial,
+			@Param("precoFinal") BigDecimal precoFinal);
 
 	// trazer todos os produtos ordenados por nome de forma crescente ASC
 	List<Produto> findAllByOrderByNomeAsc();
-	
+
+	List<Produto> findByPrecoUnitarioLessThanEqualOrderByPrecoUnitarioAsc(BigDecimal precoUnitario);
 
 }

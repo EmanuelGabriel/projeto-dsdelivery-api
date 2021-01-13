@@ -71,6 +71,13 @@ public class ProdutoResource {
 		return produtos != null ? ResponseEntity.ok().body(produtos) : ResponseEntity.notFound().build();
 	}
 
+	@GetMapping("/menor-preco")
+	public ResponseEntity<List<ProdutoModelResponse>> buscarPorMenorPreco(
+			@PathParam("menorValorProduto") BigDecimal menorValorProduto) {
+		List<ProdutoModelResponse> produtos = this.produtoService.buscarProdutosPorMenorPreco(menorValorProduto);
+		return produtos != null ? ResponseEntity.ok().body(produtos) : ResponseEntity.notFound().build();
+	}
+
 	private URI getUri(Long id) {
 		return ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(id).toUri();
 	}
